@@ -18,7 +18,7 @@ module.exports = () => {
       path: path.resolve(__dirname, 'dist'),
     },
 
-
+    // TODO: Added and configure workbox plugins for a service worker and manifest file
     plugins: [
       new InjectManifest({
           swSrc: './src/sw.js',
