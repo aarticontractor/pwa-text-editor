@@ -18,8 +18,29 @@ module.exports = () => {
       path: path.resolve(__dirname, 'dist'),
     },
     plugins: [
-      
-    ],
+      new InjectManifest({
+          swSrc: './src/sw.js',
+      }),
+      new HtmlWebpackPlugin({
+          template: './src/index.html',
+      }),
+      new WebpackPwaManifest({
+          // PWA Manifest configuration...
+          
+          name: 'Progressive Web App Text Editor',
+          short_name: 'PWAEditor',
+          description: 'My awesome Progressive Web App!',
+          background_color: '#ffffff',
+          crossorigin: 'use-credentials', 
+          icons: [
+              {
+                  src: path.resolve('src/assets/icon.png'),
+                  sizes: [96, 128, 192, 256, 384, 512], 
+                  destination: path.join('assets', 'icons')
+              }
+          ]
+      }),
+  ],
 
     module: {
       rules: [
