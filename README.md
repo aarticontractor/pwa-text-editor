@@ -4,7 +4,7 @@
 
 [Visit the Deployed Site]()
 <br>
-Here, my task was to build a text editor that runs in the browser. The app is a single-page application that meets the PWA criteria. Additionally, it features a number of data persistence techniques that serve as redundancy in case one of the options is not supported by the browser. The application also functions offline.
+In this assignment, my task was to build a text editor that runs in the browser. The app is a single-page application that meets the PWA criteria. Additionally, it features a number of data persistence techniques that serve as redundancy in case one of the options is not supported by the browser. The application also functions offline.
 To build this text editor, I started with an existing application and implemented methods for getting and storing data to an IndexedDB database. I used a package called idb, which is a lightweight wrapper around the IndexedDB API. It features a number of methods that are useful for storing and retrieving data, and is used by companies like Google and Mozilla.
 
 Lastly, I have deployed this full-stack application to Heroku.
@@ -21,9 +21,9 @@ Lastly, I have deployed this full-stack application to Heroku.
 | JavaScript | [https://developer.mozilla.org/en-US/docs/Web/JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) |  
 | NodeJs | [https://nodejs.org/en](https://nodejs.org/en) |
 | ExpressJS | [https://www.npmjs.com/package/express](https://www.npmjs.com/package/express) |
-| Insomnia | []() |
-| MongoDB | []() |
-| Mongoose ODM | []() |
+| IndexedDB | [https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API) |
+| Webpack | [https://webpack.js.org/](https://webpack.js.org/) |
+|  Babel | [https://babeljs.io/](https://babeljs.io/) |
 
 
 
@@ -48,26 +48,17 @@ Lastly, I have deployed this full-stack application to Heroku.
 
 ## Installation
 
-The 'NoSQL Social Network API' requires installation of mongoDB, and express-ja and mongoose NPM packages.
- After cloning down the repository, go to the command-line in the terminal and do an 'npm install' to install all the dependencies stated in the 'package.json' file and run 'npm run start' or 'npm run develop' to start the server.
+The 'PWA Text Editor' requires installation of nodejs and express-js and idb (IndexedDB) NPM package.
+ After cloning down the repository, go to the command-line in the terminal and do an 'npm install' to install all the dependencies stated in the 'package.json' file and run 'npm run build' and  'npm run start' to start the server.
 <br>
 <br>
 <br>
 
 ## Application Highlights and Usage
-<br>
-
-
-1. The following GIF shows when I click on the Install button, then I can download my web application as an icon on my desktop:
-<br>
-<br>
-
-![alt text](.)
-
 
 <br>
 <br>
-2. The following image shows the applications manifest file:
+1. The following image shows the application's manifest file in the browser:
 <br>
 <br>
 
@@ -76,7 +67,7 @@ The 'NoSQL Social Network API' requires installation of mongoDB, and express-ja 
 
 <br>
 <br>
-3. The following image shows the application's registered service worker:
+2. The following image shows the application's registered service worker iin the browser:
 <br>
 <br>
 
@@ -91,19 +82,63 @@ The 'NoSQL Social Network API' requires installation of mongoDB, and express-ja 
 
 <br>
 
- The following code snippet shows the use of Regular expressions(regex) to validate an email address in User.js: 
+ The following code snippet shows the configuration of workbox plugins for service worker and manifest file: 
 
 ```javascript
+//Added and configured workbox plugins for a service worker and manifest file
 
+    plugins: [
+      new InjectManifest({
+          swSrc: './src-sw.js',
+          swDest: 'src-sw.js', 
+      }),  
+      new HtmlWebpackPlugin({
+          template: './index.html',
+      }),
+      new WebpackPwaManifest({
+          // PWA Manifest configuration...
+          inject: true,
+          fingerprints: false,
+          start_url: '/',
+          publicPath: '/',
+          name: 'Progressive Web App Text Editor',
+          short_name: 'PWAEditor',
+          description: 'My awesome Progressive Web App!',
+          background_color: '#ffffff',
+          crossorigin: 'use-credentials', 
+          icons: [
+              {
+                  src: path.resolve('src/images/logo.png'),
+                  sizes: [96, 128, 192, 256, 384, 512], 
+                  destination: path.join('assets', 'icons')
+              }
+          ]
+      }),
+  ],
 ```
 
 <br>
 <br>
 
-The following code snippet shows how Mongoose was set up with local server in connection.js:
+The following code snippet shows the implementation of asset caching:
 
 ```javascript
+// Implemented asset caching
 
+const assetCache = new StaleWhileRevalidate({
+  cacheName: 'asset-cache',
+  plugins: [
+    new CacheableResponsePlugin({
+      statuses: [0, 200],
+    }),
+    new ExpirationPlugin({
+      maxAgeSeconds: 30 * 24 * 60 * 60,
+      maxEntries: 50,
+    }),
+  ],
+});
+
+registerRoute(({ request }) => request.destination !== 'document', assetCache);
 ```
 
 
@@ -115,8 +150,9 @@ The following code snippet shows how Mongoose was set up with local server in co
 - Java script basics (variables,functions, arrays, for-loops, if-else etc)
 - Basics of NodeJs server and related functions
 - How to write API routes with MongoDb as the database instead of using MySQL queries
-- Using the express and mongoose packages from NPM 
-- Creating collections using MongoDB and their associations to create relationships between collections using mongoose.
+- Using the IndexDB API package from NPM 
+- How to create a manifest file, a service worker file and 
+- How to store cache for different file types in the web browser using webpack bundles.
 
 
 <br>
@@ -139,7 +175,9 @@ The following code snippet shows how Mongoose was set up with local server in co
 - https://cloudconvert.com/webm-to-gif
 - https://nodejs.org/en
 - https://www.npmjs.com/package/express
-- 
+- https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API
+- https://babeljs.io/
+- https://webpack.js.org/
 
 
 
