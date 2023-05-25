@@ -29,7 +29,10 @@ module.exports = () => {
       }),
       new WebpackPwaManifest({
           // PWA Manifest configuration...
-          
+          inject: true,
+          fingerprints: false,
+          start_url: '/',
+          publicPath: '/',
           name: 'Progressive Web App Text Editor',
           short_name: 'PWAEditor',
           description: 'My awesome Progressive Web App!',
